@@ -1,3 +1,8 @@
+.settings/
+.classpath
+.project
+target/
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
