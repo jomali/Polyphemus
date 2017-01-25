@@ -1,3 +1,7 @@
+/*
+ * POLYPHEMUS - A simple Java roguelike.
+ * Copyright (c) 2014-2017, J. Francisco Martín <jfm.lisaso@gmail.com>.
+ */
 package jomali.polyphemus.geography;
 
 import java.util.ArrayList;

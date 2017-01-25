@@ -4,9 +4,12 @@
  */
 package jomali.polyphemus.geography;
 
+import java.util.Map;
+
 /**
- * El entorno de juego se representa como una matriz de casillas de tres
- * dimensiones.
+ * El entorno de juego se representa como múltiples matrices de casillas de dos
+ * dimensiones; un conjunto de <em>z</em> planos con coordenadas <em>x</em> e
+ * <em>y</em>.
  * 
  * 
  * @author J. Francisco Martín
@@ -16,8 +19,8 @@ package jomali.polyphemus.geography;
  */
 public class GameMap {
 
-	/** Matriz de casillas de 3D que conforma el entorno de juego. */
-	private Tile[][][] tiles;
+	/** Representa la matriz de casillas utilizada como entorno de juego. */
+	private Map<Point, Tile> tiles;
 
 	/** Ancho de la matriz. */
 	private int width;
@@ -29,45 +32,52 @@ public class GameMap {
 	private int depth;
 
 	/**
-	 * Constructor. Crea un nuevo entorno de juego a partir de la matriz de
-	 * casillas dada.
+	 * Constructor. Crea un nuevo entorno de juego a partir de los parámetros
+	 * dados.
 	 * 
 	 * @param tiles
-	 *            Matriz de casillas que representa el entorno de juego
+	 *            Mapa con que se representa la matriz de casillas utilizada
+	 *            como entorno de juego.
+	 * @param width
+	 *            Anchura de los planos del entorno de juego
+	 * @param height
+	 *            Altura de los planos del entorno de juego
+	 * @param depth
+	 *            Número de planos
 	 */
-	public GameMap(Tile[][][] tiles) {
+	public GameMap(Map<Point, Tile> tiles, int width, int height, int depth) {
 		this.tiles = tiles;
-		this.width = tiles.length;
-		this.height = tiles[0].length;
-		this.depth = tiles[0][0].length;
+		this.width = width;
+		this.height = height;
+		this.depth = depth;
 	}
 
 	// /////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * @return La matriz de casillas de tres dimensiones que representa el
-	 *         entorno de juego
+	 * @return El mapa utilizado para representar la matriz de casillas que
+	 *         conforma el entorno de juego
 	 */
-	public Tile[][][] getTiles() {
+	public Map<Point, Tile> getTiles() {
 		return tiles;
 	}
 
 	/**
-	 * @return El ancho de la matriz de casillas
+	 * @return El ancho de los planos del entorno de juego
 	 */
 	public int getWidth() {
 		return width;
 	}
 
 	/**
-	 * @return El alto de la matriz de casillas
+	 * @return El alto de los planos del entorno de juego
 	 */
 	public int getHeight() {
 		return height;
 	}
 
 	/**
-	 * @return La profundidad de la matriz de casillas
+	 * @return El número de planos del entorno de juego
 	 */
 	public int getDepth() {
 		return depth;
@@ -82,7 +92,7 @@ public class GameMap {
 	 * @return Casilla que ocupa la posición <em>(x, y, z)</em>
 	 */
 	public Tile getTile(int x, int y, int z) {
-		return tiles[x][y][z];
+		return tiles.get(new Point(x, y, z));
 	}
 
 }
