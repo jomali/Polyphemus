@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-import jomali.polyphemus.components.VisualRepresentationComponentFactory;
+import jomali.polyphemus.GameEntity;
 
 public class GameMapBuilder {
 
@@ -57,7 +57,7 @@ public class GameMapBuilder {
 	}
 
 	public GameMap build() {
-		Tile wall = new Tile(VisualRepresentationComponentFactory.createWallTile());
+		Tile wall = new Tile(GameEntity.Type.TILE_WALL);
 		wall.setAccesible(false);
 		wall.setDestroyable(false);
 		createFrame(wall);
@@ -65,10 +65,10 @@ public class GameMapBuilder {
 	}
 
 	public GameMapBuilder makeFields(int riverSize) {
-		Tile floor = new Tile(VisualRepresentationComponentFactory.createFloorTile());
+		Tile floor = new Tile(GameEntity.Type.TILE_FLOOR);
 		floor.setAccesible(true);
 		floor.setDestroyable(false);
-		Tile river = new Tile(VisualRepresentationComponentFactory.createWaterTile());
+		Tile river = new Tile(GameEntity.Type.TILE_WATER);
 		river.setAccesible(false);
 		river.setDestroyable(false);
 		return fillSpace(floor).createRiver(river, riverSize);

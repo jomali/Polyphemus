@@ -4,64 +4,69 @@
  */
 package jomali.polyphemus.geography;
 
-import java.awt.Color;
+import jomali.polyphemus.GameEntity;
 
-import jomali.polyphemus.components.VisualRepresentationComponent;
+public class Tile extends GameEntity {
 
-public class Tile {
-
-	private VisualRepresentationComponent representation;
 	private boolean accesible;
 	private boolean destroyable;
-	
-	public Tile(char glyph, String description, Color foregroundColor) {
-		this.representation = new VisualRepresentationComponent();
-		this.representation.glyph = glyph;
-		this.representation.foregroundColor = foregroundColor;
+
+	public Tile(Type type) {
+		super(type);
 		this.accesible = false;
 		this.destroyable = false;
 	}
 
-	public Tile(VisualRepresentationComponent representation) {
-		this.representation = representation;
-		this.accesible = false;
-		this.destroyable = false;
-	}
-
-	public VisualRepresentationComponent getRepresentation() {
-		return representation;
-	}
-
-	public void setRepresentation(VisualRepresentationComponent representation) {
-		this.representation = representation;
-	}
-
+	/**
+	 * @return the accesible
+	 */
 	public boolean isAccesible() {
 		return accesible;
 	}
 
-	public void setAccesible(boolean accesible) {
-		this.accesible = accesible;
-	}
-
+	/**
+	 * @return the destroyable
+	 */
 	public boolean isDestroyable() {
 		return destroyable;
 	}
 
+	/**
+	 * @param accesible
+	 *            the accesible to set
+	 */
+	public void setAccesible(boolean accesible) {
+		this.accesible = accesible;
+	}
+
+	/**
+	 * @param destroyable
+	 *            the destroyable to set
+	 */
 	public void setDestroyable(boolean destroyable) {
 		this.destroyable = destroyable;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (accesible ? 1231 : 1237);
 		result = prime * result + (destroyable ? 1231 : 1237);
-		result = prime * result + ((representation == null) ? 0 : representation.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -75,10 +80,7 @@ public class Tile {
 			return false;
 		if (destroyable != other.destroyable)
 			return false;
-		if (representation == null) {
-			if (other.representation != null)
-				return false;
-		} else if (!representation.equals(other.representation))
+		if (type != other.type)
 			return false;
 		return true;
 	}
