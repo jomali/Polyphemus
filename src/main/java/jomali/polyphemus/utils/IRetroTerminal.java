@@ -13,7 +13,7 @@ import java.awt.Color;
  * 
  * 
  * @author J. Francisco Martín
- * @serial 2017/01/30
+ * @serial 2017/02/01
  * @version 1.0
  * 
  */
@@ -25,16 +25,84 @@ public interface IRetroTerminal {
 	/** Color por defecto del fondo de la terminal. */
 	public static final Color DEFAULT_BACKGROUND_COLOR = Color.BLACK;
 
-	/** Color por defecto para el estilo resaltado. */
-	public static final Color DEFAULT_EMPHASIS_COLOR = Color.GRAY;
+	/** Color por defecto auxiliar 1. */
+	public static final Color DEFAULT_USER1_COLOR = Color.GRAY;
 
-	/**
-	 * Ancho (en num. de casillas) si no se especifica uno en el constructor.
-	 */
+	/** Color por defecto auxiliar 2. */
+	public static final Color DEFAULT_USER2_COLOR = Color.BLACK;
+
+	/** Ancho por defecto (en num. de casillas). */
 	public static final int DEFAULT_WIDTH = 80;
 
-	/** Alto (en num. de casillas) si no se especifica uno en el constructor. */
+	/** Alto por defecto (en num. de casillas). */
 	public static final int DEFAULT_HEIGHT = 24;
+
+	// /////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Retorna el ancho de la terminal en numero de casillas.
+	 * 
+	 * @return Ancho de la terminal en numero de casillas
+	 */
+	public int getGridWidth();
+
+	/**
+	 * Retorna el alto de la terminal en numero de casillas.
+	 * 
+	 * @return Alto de la terminal en numero de casillas
+	 */
+	public int getGridHeight();
+
+	/**
+	 * Retorna el color de frente utilizado por defecto por la terminal. Si no
+	 * se ha especificado uno explícitamente, se debería utilizar
+	 * <code>DEFAULT_FOREGROUND_COLOR</code>.
+	 * 
+	 * @return Color de frente utilizado por defecto
+	 */
+	public Color getForegroundColor();
+
+	/**
+	 * Retorna el color de fondo utilizado por defecto por la terminal. Si no se
+	 * ha especificado uno explícitamente, se debería utilizar
+	 * <code>DEFAULT_BACKGROUND_COLOR</code>.
+	 * 
+	 * @return Color de fondo utilizado por defecto
+	 */
+	public Color getBackgroundColor();
+
+	/**
+	 * Retorna el color de frente utilizado por defecto por la terminal al
+	 * utilizar el estilo enfatizado. Si no se ha especificado uno
+	 * explícitamente, se debería utilizar <code>DEFAULT_USER1_COLOR</code>.
+	 * 
+	 * @return Color de frente del estilo enfatizado utilizado por defecto
+	 */
+	public Color getEmphasisColor();
+
+	/**
+	 * Establece el color de frente por defecto.
+	 * 
+	 * @param foregroundColor
+	 *            Nuevo color de frente utilizado por defecto
+	 */
+	public void setForegroundColor(Color foregroundColor);
+
+	/**
+	 * Establece el color de fondo por defecto.
+	 * 
+	 * @param backgroundColor
+	 *            Nuevo color de fondo utilizado por defecto
+	 */
+	public void setBackgroundColor(Color backgroundColor);
+
+	/**
+	 * Establece el color de frente por defecto del estilo enfatizado.
+	 * 
+	 * @param emphasisColor
+	 *            Nuevo color del estilo enfatizado por defecto
+	 */
+	public void setEmphasisColor(Color emphasisColor);
 
 	// /////////////////////////////////////////////////////////////////////////
 	// Escritura de caracteres:
@@ -1467,7 +1535,6 @@ public interface IRetroTerminal {
 	public IRetroTerminal writeBottomRight(int x, int y, String text, Color foregroundColor, Color backgroundColor,
 			Color emphasisColor);
 
-
 	/**
 	 * Escribe una cadena de caracteres en la terminal utilizando el conjunto de
 	 * parámetros dados. Utiliza como origen de referencia la esquina inferior
@@ -1489,7 +1556,6 @@ public interface IRetroTerminal {
 	 */
 	public IRetroTerminal writeBottomRight(int x, int y, String text, Color foregroundColor, Color backgroundColor);
 
-
 	/**
 	 * Escribe una cadena de caracteres en la terminal utilizando el conjunto de
 	 * parámetros dados. Utiliza como origen de referencia la esquina inferior
@@ -1509,7 +1575,6 @@ public interface IRetroTerminal {
 	 */
 	public IRetroTerminal writeBottomRight(int x, int y, String text, Color foregroundColor);
 
-
 	/**
 	 * Escribe una cadena de caracteres en la terminal utilizando el conjunto de
 	 * parámetros dados. Utiliza como origen de referencia la esquina inferior
@@ -1526,7 +1591,6 @@ public interface IRetroTerminal {
 	 * @return A si mismo, para facilitar la encadenación de llamdas.
 	 */
 	public IRetroTerminal writeBottomRight(int x, int y, String text);
-
 
 	/**
 	 * Escribe una cadena de caracteres en la terminal utilizando el conjunto de
@@ -1552,7 +1616,6 @@ public interface IRetroTerminal {
 	public IRetroTerminal writeBR(int x, int y, String text, Color foregroundColor, Color backgroundColor,
 			Color emphasisColor);
 
-
 	/**
 	 * Escribe una cadena de caracteres en la terminal utilizando el conjunto de
 	 * parámetros dados. Utiliza como origen de referencia la esquina inferior
@@ -1574,7 +1637,6 @@ public interface IRetroTerminal {
 	 */
 	public IRetroTerminal writeBR(int x, int y, String text, Color foregroundColor, Color backgroundColor);
 
-
 	/**
 	 * Escribe una cadena de caracteres en la terminal utilizando el conjunto de
 	 * parámetros dados. Utiliza como origen de referencia la esquina inferior
@@ -1593,7 +1655,6 @@ public interface IRetroTerminal {
 	 * @return A si mismo, para facilitar la encadenación de llamdas.
 	 */
 	public IRetroTerminal writeBR(int x, int y, String text, Color foregroundColor);
-
 
 	/**
 	 * Escribe una cadena de caracteres en la terminal utilizando el conjunto de
