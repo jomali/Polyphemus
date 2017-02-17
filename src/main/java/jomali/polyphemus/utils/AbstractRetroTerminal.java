@@ -4,6 +4,17 @@ import java.awt.Color;
 
 /**
  * Implementación abstracta de la interfaz <strong>RetroTerminal</strong>.
+ * Implementa un mecanismo de impresión de texto con estilo resaltado. Para
+ * utilizar estilo resaltado en una cadena se utilizan delimitadores. Si se
+ * especifica el caracter '*' como delimitador, utilizando el método
+ * <code>setEmphasisDelimitator()</code>, el mensaje:
+ * 
+ * <code>"Esto es un *mensaje* de prueba."</code>
+ * 
+ * Se imprimiría utilizando los colores de frente y fondo por defecto para la
+ * mayor parte de la cadena, pero todo aquello contenido entre los delimitadores
+ * '*' (la palabra 'mensaje', en el ejemplo) se imprimiría utilizando los
+ * colores de frente y fondo para estilo resaltado.
  * 
  * 
  * @author J. Francisco Martín
@@ -23,20 +34,31 @@ public abstract class AbstractRetroTerminal implements RetroTerminal {
 	public static final int BOTTOM_CENTER = 7;
 	public static final int BOTTOM_RIGHT = 8;
 
-	/** Color utilizado por defecto para imprimir los caracteres. */
-	protected Color foregroundColor;
+	/** Color utilizado para imprimir caracteres en estilo resaltado. */
+	protected Color emphasisForegroundColor;
 
-	/** Color utilizado por defecto para imprimir el fondo de la terminal. */
-	protected Color backgroundColor;
-
-	/** Ancho de la terminal (en núm. de casillas). */
-	protected int gridWidth;
-
-	/** Alto de la terminal (en núm. de casillas). */
-	protected int gridHeight;
+	/** Color utilizado para imprimir fondo en estilo resaltado. */
+	protected Color emphasisBackgroundColor;
 
 	// /////////////////////////////////////////////////////////////////////////
-	// Métodos propios de la clase abstracta
+
+	@Override
+	public abstract int getGridWidth();
+
+	@Override
+	public abstract int getGridHeight();
+
+	@Override
+	public abstract Color getForegroundColor();
+
+	@Override
+	public abstract Color getBackgroundColor();
+
+	@Override
+	public abstract void setForegroundColor(Color foregroundColor);
+
+	@Override
+	public abstract void setBackgroundColor(Color backgroundColor);
 
 	/**
 	 * Método encargado de imprimir un caracter en la terminal con la posición y
@@ -55,6 +77,24 @@ public abstract class AbstractRetroTerminal implements RetroTerminal {
 	 * @return A sí mismo, para facilitar la encadenación de métodos
 	 */
 	public abstract RetroTerminal write(int x, int y, char character, Color foregroundColor, Color backgroundColor);
+
+	// /////////////////////////////////////////////////////////////////////////
+
+	public Color getEmphasisForegroundColor() {
+		return emphasisForegroundColor != null ? emphasisForegroundColor : getForegroundColor();
+	}
+
+	public Color getEmphasisBackgroundColor() {
+		return emphasisBackgroundColor != null ? emphasisBackgroundColor : getBackgroundColor();
+	}
+
+	public void setEmphasisForegroundColor(Color emphasisForegroundColor) {
+		this.emphasisForegroundColor = emphasisForegroundColor;
+	}
+
+	public void setEmphasisBackgroundColor(Color emphasisBackgroundColor) {
+		this.emphasisBackgroundColor = emphasisBackgroundColor;
+	}
 
 	/**
 	 * Imprime una cadena de caracteres utilizando como punto de referencia
@@ -78,14 +118,16 @@ public abstract class AbstractRetroTerminal implements RetroTerminal {
 	 */
 	protected RetroTerminal write(int alignment, int x, int y, String text, Color foregroundColor,
 			Color backgroundColor) {
-		// Recalcula el pto. de referencia en el eje X en función de la alineación
+		// Recalcula el pto. de referencia en el eje X en función de la
+		// alineación
 		if (alignment == TOP_CENTER || alignment == MIDDLE_CENTER || alignment == BOTTOM_CENTER) {
 			x = (getGridWidth() / 2) - (text.length() / 2) + x;
 		}
 		if (alignment == TOP_RIGHT || alignment == MIDDLE_RIGHT || alignment == BOTTOM_RIGHT) {
 			x = (getGridWidth() - 1) - (text.length() - 1) - x;
 		}
-		// Recalcula el pto. de referencia en el eje Y en función de la alineación
+		// Recalcula el pto. de referencia en el eje Y en función de la
+		// alineación
 		if (alignment == MIDDLE_LEFT || alignment == MIDDLE_CENTER || alignment == MIDDLE_RIGHT) {
 			y = (getGridHeight() / 2) + y;
 		}
@@ -96,39 +138,6 @@ public abstract class AbstractRetroTerminal implements RetroTerminal {
 			write(x + i, y, text.charAt(i), foregroundColor, backgroundColor);
 		}
 		return this;
-	}
-
-	// /////////////////////////////////////////////////////////////////////////
-	// Métodos sobreescritos de la interfaz
-
-	@Override
-	public int getGridWidth() {
-		return gridWidth;
-	}
-
-	@Override
-	public int getGridHeight() {
-		return gridHeight;
-	}
-
-	@Override
-	public Color getForegroundColor() {
-		return foregroundColor;
-	}
-
-	@Override
-	public Color getBackgroundColor() {
-		return backgroundColor;
-	}
-
-	@Override
-	public void setForegroundColor(Color foregroundColor) {
-		this.foregroundColor = foregroundColor;
-	}
-
-	@Override
-	public void setBackgroundColor(Color backgroundColor) {
-		this.backgroundColor = backgroundColor;
 	}
 
 	@Override
@@ -373,56 +382,47 @@ public abstract class AbstractRetroTerminal implements RetroTerminal {
 
 	@Override
 	public RetroTerminal writeBC(int x, int y, String text, Color foregroundColor, Color backgroundColor) {
-		// TODO Auto-generated method stub
-		return null;
+		return write(BOTTOM_CENTER, x, y, text, foregroundColor, backgroundColor);
 	}
 
 	@Override
 	public RetroTerminal writeBC(int x, int y, String text, Color foregroundColor) {
-		// TODO Auto-generated method stub
-		return null;
+		return write(BOTTOM_CENTER, x, y, text, foregroundColor, getBackgroundColor());
 	}
 
 	@Override
 	public RetroTerminal writeBC(int x, int y, String text) {
-		// TODO Auto-generated method stub
-		return null;
+		return write(BOTTOM_CENTER, x, y, text, getForegroundColor(), getBackgroundColor());
 	}
 
 	@Override
 	public RetroTerminal writeBottomRight(int x, int y, String text, Color foregroundColor, Color backgroundColor) {
-		// TODO Auto-generated method stub
-		return null;
+		return write(BOTTOM_RIGHT, x, y, text, foregroundColor, backgroundColor);
 	}
 
 	@Override
 	public RetroTerminal writeBottomRight(int x, int y, String text, Color foregroundColor) {
-		// TODO Auto-generated method stub
-		return null;
+		return write(BOTTOM_RIGHT, x, y, text, foregroundColor, getBackgroundColor());
 	}
 
 	@Override
 	public RetroTerminal writeBottomRight(int x, int y, String text) {
-		// TODO Auto-generated method stub
-		return null;
+		return write(BOTTOM_RIGHT, x, y, text, getForegroundColor(), getBackgroundColor());
 	}
 
 	@Override
 	public RetroTerminal writeBR(int x, int y, String text, Color foregroundColor, Color backgroundColor) {
-		// TODO Auto-generated method stub
-		return null;
+		return write(BOTTOM_RIGHT, x, y, text, foregroundColor, backgroundColor);
 	}
 
 	@Override
 	public RetroTerminal writeBR(int x, int y, String text, Color foregroundColor) {
-		// TODO Auto-generated method stub
-		return null;
+		return write(BOTTOM_RIGHT, x, y, text, foregroundColor, getBackgroundColor());
 	}
 
 	@Override
 	public RetroTerminal writeBR(int x, int y, String text) {
-		// TODO Auto-generated method stub
-		return null;
+		return write(BOTTOM_RIGHT, x, y, text, getForegroundColor(), getBackgroundColor());
 	}
 
 }
