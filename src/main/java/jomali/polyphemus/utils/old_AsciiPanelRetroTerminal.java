@@ -16,7 +16,7 @@ import java.awt.Color;
  * @version 1.0
  *
  */
-public class AsciiPanelRetroTerminal extends AbstractRetroTerminal implements IRetroTerminal {
+public class old_AsciiPanelRetroTerminal extends old_AbstractRetroTerminal implements RetroTerminal {
 
 	@Override
 	public int getGridWidth() {
@@ -67,7 +67,7 @@ public class AsciiPanelRetroTerminal extends AbstractRetroTerminal implements IR
 	}
 
 	@Override
-	public IRetroTerminal write(int x, int y, char character, Color foregroundColor, Color backgroundColor) {
+	public RetroTerminal write(int x, int y, char character, Color foregroundColor, Color backgroundColor) {
 		// TODO Auto-generated method stub
 		return null;
 	}
